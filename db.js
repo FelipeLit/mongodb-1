@@ -83,7 +83,7 @@ db.user.find({edad:{$gte: 20}})//mayor igual que
 db.user.find({edad:{$lte: 20}})//menor igual que
 db.user.find({edad:{$in: [5,10,45]}})//si contiene o no los valores
 db.user.find({edad: {$nin: [35,39,45]}})//traigame la dat que no contenga estos valores
-db.user.find({edad: {$exist: true}})//comando donde existe o no existe un campo
+db.user.find({edad: {$exists: true}})//comando donde existe o no existe un campo
 db.user.find({nombres: {$regex: /^marina/}})//buscar un datos con los valores
 
 db.user.find(
@@ -310,4 +310,113 @@ db.user.find({
 })
 
 //13. usaurios que no tengan correos registrados
+
+//eliminar correo 
+db.user.updateOne({_id: ObjectId('65f393c556e2cdb02a67402a')}, 
+{$unset: {correo:"pedro@gmail.com"}})
+
+//desarrollo el ejercicio
+
+db.user.find(
+    {correo : {$exists: false}}
+)
+
+//14. obtener todos los usuarios que sean de Francia y que su salario este entre 3000 y 5000
+
+//update regsitros para que cumpla condiciones
+db.user.updateOne(
+    {_id: ObjectId('65f393c556e2cdb02a67402e')},
+    {$set:
+        {salario: 4500}
+    }
+)
+
+//desarrollo del ejercicio
+db.user.find({
+    pais: "francia",
+    salario: {$gt: 3500},
+    salario: {$lt: 5000}
+    }
+)
+
+//15. obtener usuarios que sean de Brasil ytenga un peso menor a 120 libras o mayor 140 libras
+//update regsitros para que cumpla condiciones
+db.user.updateOne(
+    {_id: ObjectId('65f393c556e2cdb02a674031')},
+    {$set:
+        {pais: "brasil",peso: 145},
+        
+    }
+)
+
+//desarrollo dej ejercicio
+db.user.find(
+    {pais: "brasil",
+    $or:[
+        {peso: {$lt:120}},
+        {peso: {$gt: 140}}
+    ]
+    }
+)
+
+//16. registros de argetina o chile y tengan edad menor a 25
+
+//update regsitros para que cumpla condiciones
+db.user.updateOne(
+    {_id: ObjectId('65f4ac1dbb1af0958c1acb37')},
+    {$set:
+        {pais: "chile"}
+    }
+)
+
+db.user.find(
+    {edad: {$lt: 25},
+    $or:[
+        {pais: {$eq: "chile"}},
+        {pais: {$eq: "argentina"}}
+    ]
+    }
+)
+
+//17. usarios que no sean ni de españa ni de mexico y ganen menos de 3000 al mes
+
+db.user.find({
+    pais: {$nin: ["españa", "mexico"]},
+    salario: {$lt: 3000}
+})
+
+//18. usarios de Alemania y salrio menos a 4000 o edad mayor a 35 años
+
+//update regsitros para que cumpla condiciones
+db.user.updateOne(
+    {_id: ObjectId('65f4ac1dbb1af0958c1acb3c')},
+    {$set:
+        {pais: "alemania", edad: 38}
+    }
+)
+
+//dearrollo ejercicio
+db.user.find(
+    {pais: "alemania",
+    $or: [
+        {salario: {$lt: 4000}},
+        {edad: {$gt: 35}}
+    ]
+})
+
+//19. usarios que no sean de colombia y eastura menor a 170
+
+db.user.find({
+    pais: {$nin: ["colombia"]},
+    altura: {$lt: 170}
+})
+
+//20. usaurios de india y no tengan salario
+
+db.user.find({
+    pais: {$eq: "india"},
+    salario: {$exists: false}
+})
+
+
 
