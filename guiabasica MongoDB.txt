@@ -1,0 +1,147 @@
+MongoDB
+
+-Sistema de bases de datos NoSQL, orientado a documento y altamente escalable
+
+-Caracteristicas
+
+-Modelo de datos flexible
+	-Utiliza un modelo de datos basado en documentos JSON(BSON)
+	-esto permite que el esqueno no sea fijo
+	-permite que la estructura de datoscambie a medida que cambian los 			requisitos
+
+-Escalabilidad horizontal
+	-Distribuir los datos a traves de multiples servidores, para manejar grandes volumenes de datos
+
+-Escalabilidad vertical
+	-aumnetar la capacidad de un sistema añadiendo mas recursos a una unica instancia de un sistema (mejorar la maquina)
+
+-Alta disponibilidad
+	-MongoDB ofrece replicacion automatica, esto permite gerantizar disponiblidad continua de los datos, (los datos se replican en varios nodos)
+
+-Ad hoc queries
+	- permite hacer consultas ad hoc sobre datos sin necesidad de definir previamente vistas o estructuras de datos complejas
+
+-COLECCION
+	-Es un grupo de documentos almacenados en una base de datos
+	- cada documento en una coleccion es un objeto BSON
+
+COMANDOS PARA MONGODB
+
+======================= OPERADORES DE COMPARACION ==========================
+-db.user.find({edad:{$eq: 20}})//igual que
+-db.user.find({edad:{$ne: 20}})//negacion
+-db.user.find({edad:{$gt: 20}})//mayor que
+-db.user.find({edad:{$lt: 20}})//menor que
+-db.user.find({edad:{$gte: 20}})//mayor igual que
+-db.user.find({edad:{$lte: 20}})//menor igual que
+-db.user.find({edad:{$in: [5,10,45]}})//si contiene o no los valores
+-db.user.find({edad: {$nin: [35,39,45]}})//traigame la dat que no contenga estos valores
+-db.user.find({edad: {$exists: true/false}})//comando donde existe o no existe un campo
+-db.user.find({nombres: {$regex: /^marina/}})//buscar un datos con los valores
+
+======================== CREAR UNA COLECCION ====================
+db.createCollection('nombrecoleccion')
+
+======================== INGRESAR VALORES =================
+
+	//ingresar un solo documento
+	db.collection.insertOne({compo: valor, campo:valor})
+
+	//ingresar varios documentos
+	db.nombrecollection.insertMany
+	([
+	{campo: valor, campo:valor},
+	{campo:valor, campo: valor}
+	])
+========================== CONSULTAR ===================================
+-CONSULTAR TODA LA BASE DE DATOS: 
+	db.nombrecoleccion.find();
+
+	//consultar por un condicion especifica
+	db.coleccion
+	db.user.find({campo: {$condicon: valor}})
+
+	//consultar si cumple  con una condicion u otra condicion
+	db.coleccion.find
+	({$or: [{campo: {$condicion: valor}}, {campo: {$condicion: valor}}]
+	})
+
+	//consultar si cumple con ambas condiciones
+	db.coleccion.find
+	({$or: [{campo: {$condicion: valor}}, {campo: {$condicion: valor}}]
+	})
+
+	//consultar si cumple con una y si cumple con una de las dos siguientes
+	db.collection.find
+	(campo: valor, 
+	{$or: [{campo: {$condicion: valor}}, {campo: {$condicion: valor}}]})
+
+===============================ACTUALIZAR===============================
+-ACTUALIZAR UN SOLO DOCUMENTO: 
+	db.nombrecoleccion.updateOne 
+	({_id:ObjectId('id')},
+	{$set: {campo que se desea actualizar: nuevo valor})
+
+-ACTUALIZAR VARIOS DOCUMENTOS CON UNA CONDICION EN ESTE CASO EL ID:
+	db.nombrecoleccion.updateMany
+	({_id: {$in: [ObjectId('id'),ObjectId('id')]}},
+	{$set: {campo que se desea actualizar: nuevo valor})
+
+-ACTUALIZAR TODOS LOS DOCUMENTOS DE LA COLECCION
+	db.nombrecoleccion.updateMany
+	({}, {$set: {campo: valor}})
+
+	//actualizar si tiene una condicion mayor a
+	db.coleccion.updateMany
+	({campo: {$gt: valor}}--->condicion,
+	{$set: {edad: 5}})--->valor que va a tomar el dato
+
+	//actualizar si cumple una u otra condicion
+	db.user.updateOne(
+    	{$or: [{campo: valor},{campo: valor}]},
+    	{$set: {campo: nuevo valor}}
+    	)
+
+
+ ===================================ELIMINAR==============================
+-ELIMINAR UN DOCUMENTO DE LA COLECCION:
+	db.nombrecoleccion.deleteOne
+	({_id: ObjectId('id')})
+
+-ELIMINAR VARIOS DOCUMENTOS CON UNA CONDICION:
+	db.nombrecoleccion.deleteMany
+	({_id: {$in: [ObjectId('id'),ObjectId('id')]}})
+	
+	//eliminar cuando el valor sea igual a
+	db.nombrecoleccion.deleteMany
+	({campo:{$eq:valor}})
+
+	//eliminar si cumple dos condiciones
+	db.nombrecoleccion.deleteMany
+	({$and: [{campo:valor}, {campo:valor}]})
+
+	//eliminar si cumple con una de las condicones
+	db.nombrecoleccion.deleteMany
+	({$or: [{campo:{$eq: valor}},{campo:{$eq: valor}}]})
+
+	//eliminar un campo especifico de un documento
+	db.nombrecoleccion.updateOne
+	({_id:ObjectId('id')},
+	{$unset: {campo: ""}})
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
